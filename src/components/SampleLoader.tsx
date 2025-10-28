@@ -20,7 +20,7 @@ const SampleLoader = ({ samples, onLoad }: SampleLoaderProps) => {
           Sample dictations
         </h2>
         <p className="text-sm text-slate-500">
-          Use these mock recordings to test MediNote end to end once features are ready.
+          Use these mock recordings to test medinote end to end once features are ready.
         </p>
       </div>
       <ul className="space-y-3">

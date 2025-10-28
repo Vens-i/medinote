@@ -8,7 +8,7 @@ export type MicPermissionGateProps = {
 const messages: Record<MicPermissionState, { title: string; body: string }> = {
   pre: {
     title: 'Microphone access not requested',
-    body: 'Allow microphone access to enable recording inside MediNote.',
+    body: 'Allow microphone access to enable recording inside medinote.',
   },
   granted: {
     title: 'Microphone ready',

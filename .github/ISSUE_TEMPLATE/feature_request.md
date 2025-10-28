@@ -1,6 +1,6 @@
 ---
 name: Feature request
-about: Suggest an improvement for MediNote
+about: Suggest an improvement for medinote
 title: "[Feature] "
 labels: enhancement
 assignees: ''

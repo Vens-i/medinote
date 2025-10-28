@@ -1,6 +1,6 @@
-# MediNote
+# medinote
 
-Phase-1 scaffolding for the MediNote web app. Built with Vite, React, TypeScript, and Tailwind CSS 4.1.
+Phase-1 scaffolding for the medinote web app. Built with Vite, React, TypeScript, and Tailwind CSS 4.1.
 
 ## Getting started
 

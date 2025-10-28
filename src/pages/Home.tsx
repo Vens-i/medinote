@@ -7,6 +7,7 @@ import SampleLoader, { type SampleItem } from '../components/SampleLoader'
 import SoapPreview, { type SoapSection } from '../components/SoapPreview'
 import Toolbar from '../components/Toolbar'
 import VoiceRecorder, { type VoiceRecorderStatus } from '../components/VoiceRecorder'
+import logo from '../assets/logo.svg'
 
 const noop = () => undefined
 
@@ -109,13 +110,14 @@ const Home = () => {
     <div className="min-h-screen bg-slate-50 text-slate-900">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 py-4">
-          <p className="text-lg font-semibold tracking-tight" aria-label="MediNote logo">
-            MediNote
+          <p className="text-lg font-semibold tracking-tight" aria-label="medinote logo">
+            <img src={logo} alt="medinote logo" className="inline h-6 w-6 mr-2 align-middle" />
+            medinote
           </p>
           <a
             href="#"
             className="text-sm font-medium text-slate-600 hover:text-slate-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-            aria-label="MediNote GitHub repository"
+            aria-label="medinote GitHub repository"
           >
             GitHub
           </a>

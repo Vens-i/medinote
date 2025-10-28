@@ -1,6 +1,6 @@
 ---
 name: Bug report
-about: Help us squash defects in MediNote
+about: Help us squash defects in medinote
 title: "[Bug] "
 labels: bug
 assignees: ''
