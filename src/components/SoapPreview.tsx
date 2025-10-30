@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export type SoapSection = {
   id: string
@@ -9,19 +9,41 @@ export type SoapSection = {
 export type SoapPreviewProps = {
   sections: SoapSection[]
   initialSectionId?: string
+  isCopyingSection?: boolean
+  isCopyingAll?: boolean
+  emptyMessage?: string
   onCopySection?: (sectionId: string) => void
   onCopyAll?: () => void
 }
 
-const SoapPreview = ({ sections, initialSectionId, onCopySection, onCopyAll }: SoapPreviewProps) => {
+const DEFAULT_EMPTY_MESSAGE = 'No content yet. Generated SOAP notes will appear here.'
+
+const SoapPreview = ({
+  sections,
+  initialSectionId,
+  isCopyingSection = false,
+  isCopyingAll = false,
+  emptyMessage = DEFAULT_EMPTY_MESSAGE,
+  onCopySection,
+  onCopyAll,
+}: SoapPreviewProps) => {
   const firstSection = sections[0]
   const firstSectionId = initialSectionId ?? firstSection?.id ?? 'subjective'
   const [activeId, setActiveId] = useState(firstSectionId)
+
+  useEffect(() => {
+    if (!sections.find((section) => section.id === activeId)) {
+      setActiveId(firstSectionId)
+    }
+  }, [activeId, sections, firstSectionId])
 
   const activeSection = useMemo(
     () => sections.find((section) => section.id === activeId) ?? firstSection,
     [activeId, sections, firstSection],
   )
+
+  const hasContent = sections.some((section) => section.content.trim().length > 0)
+  const activeHasContent = Boolean(activeSection?.content.trim())
 
   return (
     <section
@@ -34,31 +56,37 @@ const SoapPreview = ({ sections, initialSectionId, onCopySection, onCopyAll }: S
             SOAP Preview
           </h2>
           <p className="text-sm text-slate-500">
-            Subjective, Objective, Assessment, Plan in one place. Editing arrives later.
+            Subjective, Objective, Assessment, Plan summaries update after each generation.
           </p>
         </div>
         <div className="flex gap-2">
           <button
             type="button"
-            disabled
-            aria-disabled="true"
             onClick={() => {
               if (activeSection) {
                 onCopySection?.(activeSection.id)
               }
             }}
-            className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-500"
+            disabled={!activeHasContent || isCopyingSection}
+            className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+              activeHasContent && !isCopyingSection
+                ? 'border-slate-200 text-slate-600 hover:bg-slate-100'
+                : 'border-slate-200 text-slate-400'
+            }`}
           >
-            Copy section
+            {isCopyingSection ? 'Copying…' : 'Copy section'}
           </button>
           <button
             type="button"
-            disabled
-            aria-disabled="true"
             onClick={onCopyAll}
-            className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-500"
+            disabled={!hasContent || isCopyingAll}
+            className={`rounded-lg border px-3 py-2 text-sm font-medium ${
+              hasContent && !isCopyingAll
+                ? 'border-slate-200 text-slate-600 hover:bg-slate-100'
+                : 'border-slate-200 text-slate-400'
+            }`}
           >
-            Copy all
+            {isCopyingAll ? 'Copying…' : 'Copy all'}
           </button>
         </div>
       </header>
@@ -89,7 +117,7 @@ const SoapPreview = ({ sections, initialSectionId, onCopySection, onCopyAll }: S
         aria-live="polite"
         className="flex-1 rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-600"
       >
-        {activeSection?.content || 'No content yet. Generated SOAP notes will appear here.'}
+        {activeSection?.content?.trim() || emptyMessage}
       </article>
     </section>
   )

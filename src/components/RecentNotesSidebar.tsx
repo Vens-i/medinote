@@ -25,15 +25,20 @@ const RecentNotesSidebar = ({ notes, onSelect, onDelete, onDeleteAll }: RecentNo
           </h2>
           <p className="text-sm text-slate-500">Coming soon: sync, filters, and sharing.</p>
         </div>
-        <button
-          type="button"
-          disabled
-          aria-disabled="true"
-          onClick={onDeleteAll}
-          className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-500"
-        >
-          Delete all data
-        </button>
+        <div className="flex gap-2">
+          <button
+            type="button"
+            onClick={onDeleteAll}
+            disabled={notes.length === 0}
+            className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+              notes.length === 0
+                ? 'border-slate-200 text-slate-400'
+                : 'border-rose-200 text-rose-700 hover:bg-rose-50'
+            }`}
+          >
+            Delete all data
+          </button>
+        </div>
       </header>
 
       <ul className="flex-1 space-y-3 overflow-y-auto pr-1" aria-label="Note history">
@@ -53,18 +58,14 @@ const RecentNotesSidebar = ({ notes, onSelect, onDelete, onDeleteAll }: RecentNo
                 >
                   {note.title}
                 </button>
-                <div className="flex gap-1">
-                  <button
-                    type="button"
-                    disabled
-                    aria-disabled="true"
-                    onClick={() => onDelete(note.id)}
-                    className="rounded-full border border-slate-300 px-2 py-1 text-xs font-medium text-slate-500"
-                    aria-label={`Open actions for ${note.title}`}
-                  >
-                    Actions
-                  </button>
-                </div>
+                <button
+                  type="button"
+                  onClick={() => onDelete(note.id)}
+                  className="rounded-full border border-slate-300 px-2 py-1 text-xs font-medium text-slate-500 hover:bg-slate-200"
+                  aria-label={`Delete ${note.title}`}
+                >
+                  Delete
+                </button>
               </div>
               <p className="text-xs uppercase tracking-wide text-slate-500">Updated {note.updatedAt}</p>
               {note.summary && <p className="text-sm text-slate-600">{note.summary}</p>}

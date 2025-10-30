@@ -7,9 +7,10 @@ export type SampleItem = {
 export type SampleLoaderProps = {
   samples: SampleItem[]
   onLoad: (sampleId: string) => void
+  busy?: boolean
 }
 
-const SampleLoader = ({ samples, onLoad }: SampleLoaderProps) => {
+const SampleLoader = ({ samples, onLoad, busy = false }: SampleLoaderProps) => {
   return (
     <section
       aria-labelledby="sample-loader-heading"
@@ -33,12 +34,13 @@ const SampleLoader = ({ samples, onLoad }: SampleLoaderProps) => {
               </div>
               <button
                 type="button"
-                disabled
-                aria-disabled="true"
+                disabled={busy}
                 onClick={() => onLoad(sample.id)}
-                className="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-500"
+                className={`rounded-full border px-3 py-1 text-xs font-semibold ${
+                  busy ? 'border-slate-200 text-slate-400' : 'border-slate-200 text-slate-600 hover:bg-slate-100'
+                }`}
               >
-                Load
+                {busy ? 'Loading…' : 'Load'}
               </button>
             </div>
           </li>
